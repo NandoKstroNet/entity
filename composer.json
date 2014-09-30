@@ -1,0 +1,19 @@
+{
+    "require" : {
+        "silex/silex": "1.2.*@dev",
+		"phpunit/phpunit" : "3.7.*@dev",
+        "mockery/mockery": "0.9.*@dev",
+		"swiftmailer/swiftmailer": "5.2.*@dev"
+	},
+	"authors" : [
+        {
+            "name": "Nando Kstro Net",
+            "email": "nandokstro@phpmaranhao.com.br"
+        }
+    ],
+    "autoload": {
+        "psr-0": {
+            "": "src/"
+        }
+    }
+}

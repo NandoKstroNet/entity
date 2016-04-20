@@ -1,6 +1,6 @@
 {
     "require-dev" : {
-		"phpunit/phpunit" : "3.7.*@dev",
+	"phpunit/phpunit" : "3.7.*@dev",
         "mockery/mockery": "0.9.*@dev"
 	},
 	"authors" : [
@@ -11,7 +11,7 @@
     ],
     "autoload": {
         "psr-4": {
-            "": "src/"
+            "CodeExperts\\": "src/"
         }
     }
 }

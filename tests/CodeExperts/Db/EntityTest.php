@@ -1,5 +1,5 @@
 <?php
-use Application\Db\Entity;
+use CodeExperts\Db\Entity;
 use \PDO;
 
 class EntityTest extends \PHPunit_Framework_Testcase
@@ -42,7 +42,7 @@ class EntityTest extends \PHPunit_Framework_Testcase
 		$insert = $this->entity->save($data);
 		
 		
-		$this->assertTrue($insert);
+		$this->assertEquals(1, $insert);
 	}
 
 	public function testUpdateOfRegister()
@@ -113,6 +113,24 @@ class EntityTest extends \PHPunit_Framework_Testcase
 		
 		$this->assertEquals('Joãozinho Sá', $register[0]['name']);
 		$this->assertEquals('sa@email.com.br', $register[0]['email']);
+	}
+
+	public function testFindMethod()
+	{
+
+		$data = array(
+			'name'  => 'Joãozinho Sá',
+			'email' => 'sa@email.com.br',
+			'created_at' => date('Y-m-d'),
+			'updated_at' => date('Y-m-d'),
+		);
+
+		$this->entity->save($data);
+
+		$register = $this->entity->find(1);
+
+		$this->assertEquals('Joãozinho Sá', $register['name']);
+		$this->assertEquals('sa@email.com.br', $register['email']);
 	}
 
 	public function testDeleteRegister()

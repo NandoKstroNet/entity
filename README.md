@@ -6,7 +6,7 @@ Pequena documentação da classe Entity.
 PHP 5.3+
 
 ##Como usar
-Suponhamos que você esteja utilizando uma classe chamada produtos. Para ter acesso ao crud oferecido por pela classe Entity, basta que você estenda a mesma e defina a table da classe atual. Veja:
+Suponhamos que você esteja utilizando uma classe chamada produtos. Para ter acesso ao crud oferecido pela classe Entity, basta que você estenda a mesma e defina a table da classe atual. Veja:
 
 ```php
 <?php 
@@ -50,7 +50,7 @@ O método where permite a busca de determinados sets de dados segundo condição
 ...
 $products = new Product(new \PDO(...));
 
-var_dump($products->where(['slug' => 'playstation-4'));
+var_dump($products->where(['slug' => 'playstation-4']));
 ```
 ##Find
 Você pode utilizar o método `find`para buscar um dado especifico, pelo ID do mesmo. Veja a seguir:

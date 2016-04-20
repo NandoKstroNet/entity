@@ -1,8 +1,6 @@
 <?php
 
-namespace Application\Db;
-
-use Application\Db\Connection;
+namespace CodeExperts\Db;
 
 class Entity
 {
@@ -21,9 +19,9 @@ class Entity
 	 */
 	public function __construct(\PDO $conn)
 	{
-		date_default_timezone_set("America/Sao_Paulo");
 		$this->conn = $conn;
 	}
+
 	/**
 	 * Set Table
 	 */
@@ -71,7 +69,7 @@ class Entity
 			}
 
 			if($insert->execute()) {
-				return true;
+				return $this->conn->lastInsertId();
 			}
 
 			return false;
@@ -106,7 +104,7 @@ class Entity
 				$update->bindValue(":" . $key, $value, !is_int($value)? \PDO::PARAM_STR : \PDO::PARAM_INT);
 			}
 
-			$update->execute();
+			return $update->execute();
 
 		} catch(PDOexception $e) {
 			return false;
@@ -117,9 +115,12 @@ class Entity
 	 * Get all datas in bd
 	 * @return array with datas
 	 */
-	public function getAll($fields = '*')
+	public function getAll($fields = '*', $limit = null)
 	{
 		$sql = "SELECT " . $fields .  " FROM " . $this->table;
+
+		if(!is_null($limit))
+			$sql .= " LIMIT " . $limit;
 
 		try {
 			$select = $this->conn->prepare($sql);
@@ -136,14 +137,17 @@ class Entity
 	 * Get especific data
 	 * 
 	 */
-	public function where($where, $fields = '*', $more = 'AND')
+	public function where($where, $fields = '*', $more = 'AND', $fetch = 'all')
 	{
+		$whereSql = '';
+
 		foreach($where as $key => $w) {
-			$whereSql = $key . ' = :' . $key;
+			$whereSql .= $whereSql ? ' ' . $more . ' ' : '';
+			$whereSql .= $key . ' = :' . $key;
 		}
 
 		$sql = "SELECT " . $fields .  " FROM " . $this->table . " WHERE " . $whereSql;
-
+		
 		try {
 			$select = $this->conn->prepare($sql);
 			foreach($where as $key => $value) {
@@ -155,9 +159,25 @@ class Entity
 			return false;
 		}
 
-		return $select->fetchAll(\PDO::FETCH_ASSOC);
+		if($fetch == 'all') {
+			return $select->fetchAll(\PDO::FETCH_ASSOC);
+		}
+
+		if($fetch == 'one') {
+			return $select->fetch();			
+		}
 	}
 
+	/**
+	 * Find one
+	 */
+	public function find($id)
+	{
+		$where = ['id' => $id];
+
+		return $this->where($where, '*', 'AND', 'one');
+	}
+	
 	/**
 	 * Delete data
 	 * @param   [id] [data's id]

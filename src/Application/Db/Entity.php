@@ -21,6 +21,7 @@ class Entity
 	 */
 	public function __construct(\PDO $conn)
 	{
+		date_default_timezone_set("America/Sao_Paulo");
 		$this->conn = $conn;
 	}
 	/**

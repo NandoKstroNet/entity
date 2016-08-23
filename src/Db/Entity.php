@@ -151,7 +151,7 @@ class Entity
 		try {
 			$select = $this->conn->prepare($sql);
 			foreach($where as $key => $value) {
-				$select->bindValue(":" . $key, $value, is_int($value)? \PDO::PARAM_STR : \PDO::PARAM_INT);
+				$select->bindValue(":" . $key, $value, !is_int($value)? \PDO::PARAM_STR : \PDO::PARAM_INT);
 			}		
 			$select->execute();
 
